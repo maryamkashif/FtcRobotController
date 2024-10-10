@@ -1,34 +1,31 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp
-public class IGEncoderElevatorTesting extends LinearOpMode {
+public class IGElevator extends LinearOpMode {
+    public DcMotorEx elevatorRight;
+    public DcMotorEx elevatorLeft;
 
+    int pos1 = 1500;
+    int pos2 = 2300;
+    int pos3 = 3500;
+
+    // Position of the arm when it's down
+    int downpos = 0;
     //elevator motors
-    DcMotor elevatorRight = hardwareMap.dcMotor.get("elevatorRight");
-    DcMotor elevatorLeft = hardwareMap.dcMotor.get("elevatorLeft");
-
-    RobotDrive bot;
+    //  DcMotor elevatorRight = hardwareMap.dcMotor.get("elevatorRight");
+    //  DcMotor elevatorLeft = hardwareMap.dcMotor.get("elevatorLeft");
 
     @Override
     public void runOpMode() throws InterruptedException {
         // Position of the arm when it's lifted
-        int pos1 = 1500;
-        int pos2 = 2300;
-        int pos3 = 3500;
-        // Position of the arm when it's down
-        int downpos = 0;
 
-        /*// Reset the motor encoder so that it reads zero ticks
-        elevatorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        elevatorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        // Turn the motor back on, required if you use STOP_AND_RESET_ENCODER
-        elevatorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        elevatorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);*/
+        DcMotor elevatorRight = hardwareMap.dcMotor.get("elevatorRight");
+        DcMotor elevatorLeft = hardwareMap.dcMotor.get("elevatorLeft");
 
         elevatorLeft.setTargetPosition(elevatorLeft.getCurrentPosition());
         elevatorRight.setTargetPosition(elevatorRight.getCurrentPosition());
@@ -45,39 +42,45 @@ public class IGEncoderElevatorTesting extends LinearOpMode {
         elevatorLeft.setDirection(DcMotor.Direction.REVERSE);
         elevatorRight.setDirection(DcMotor.Direction.REVERSE);
 
-        RobotDrive bot = new RobotDrive();
 
         waitForStart();
 
         while (opModeIsActive()) {
             // all the way down
             if (gamepad1.dpad_down) {
-                elevator(downpos, 0.5);
+                /*elevatorRight.setTargetPosition(0);
+                elevatorLeft.setTargetPosition(0);
+                elevatorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                elevatorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                elevatorRight.setPower(0.5);
+                elevatorLeft.setPower(0.5);*/
+
+                elevator(0, 0.5);
             }
 
             else if (gamepad1.dpad_left) {
-                elevator(pos1, 0.5);
-            }
-
-            else if (gamepad1.dpad_up) {
-                elevator(pos2, 0.5);
+                elevatorRight.setTargetPosition(2300);
+                elevatorLeft.setTargetPosition(2300);
+                elevatorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                elevatorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                elevatorRight.setPower(0.5);
+                elevatorLeft.setPower(0.5);
             }
 
             else if (gamepad1.dpad_right) {
-                elevator(pos3, 0.5);
+                elevatorRight.setTargetPosition(3500);
+                elevatorLeft.setTargetPosition(3500);
+                elevatorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                elevatorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                elevatorRight.setPower(0.5);
+                elevatorLeft.setPower(0.5);
             }
 
-            double jx = -gamepad1.left_stick_y;
-            double jy = -gamepad1.left_stick_x;
-            double jw = -gamepad1.right_stick_x;
-
-            bot.driveXYW(jx, jy, jw);
-
-            // Get the current position of the armMotor
+            // Get the current position of the elevator
             double elevatorRightPos = elevatorRight.getCurrentPosition();
             double elevatorLeftPos = elevatorLeft.getCurrentPosition();
 
-            // Show the position of the armMotor on telemetry
+            // Show the position of the elevator on telemetry
             telemetry.addData("Right elevator Encoder Position", elevatorRightPos);
             telemetry.addData("Left elevator Encoder Position", elevatorLeftPos);
 
