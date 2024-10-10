@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode;
-
+import static org.firstinspires.ftc.teamcode.RobotValues.*;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class RobotDrive {
 
@@ -10,13 +13,36 @@ public class RobotDrive {
     DcMotorEx rf;
     DcMotorEx lb;
     DcMotorEx rb;
+    IMU imu;
+    static double headingOffset = 0; // static remembers across opmode runs
 
     public void init(HardwareMap hardwareMap) {
-        lf = initDcMotor(hardwareMap, "lf", DcMotor.Direction.REVERSE);
-        rf = initDcMotor(hardwareMap, "rf", DcMotor.Direction.FORWARD);
-        lb = initDcMotor(hardwareMap, "lb", DcMotor.Direction.REVERSE);
-        rb = initDcMotor(hardwareMap, "rb", DcMotor.Direction.FORWARD);
+        lf = initDcMotor(hardwareMap, "lf", LEFTDIR);
+        rf = initDcMotor(hardwareMap, "rf", RIGHTDIR);
+        lb = initDcMotor(hardwareMap, "lb", LEFTDIR);
+        rb = initDcMotor(hardwareMap, "rb", RIGHTDIR);
+        initIMU(hardwareMap);
     }
+
+    public void initIMU(HardwareMap hardwareMap) {
+        imu = hardwareMap.get(IMU.class, "imu");
+        IMU.Parameters params = new IMU.Parameters(
+                new RevHubOrientationOnRobot(LOGO_DIR, USB_DIR));
+        imu.initialize(params);
+    }
+
+    public double getIMUHeading() {
+        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+    }
+
+    public void setHeading(double h) {
+        headingOffset = h - getIMUHeading();
+    }
+
+    public double getHeading() {
+        return headingOffset + getIMUHeading();
+    }
+
     public DcMotorEx initDcMotor(HardwareMap hardwareMap,
                                  String name,
                                  DcMotor.Direction dir) {
