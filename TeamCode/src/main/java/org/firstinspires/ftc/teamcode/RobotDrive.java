@@ -17,10 +17,10 @@ public class RobotDrive {
     static double headingOffset = 0; // static remembers across opmode runs
 
     public void init(HardwareMap hardwareMap) {
-        lf = initDcMotor(hardwareMap, "lf", LEFTDIR);
-        rf = initDcMotor(hardwareMap, "rf", RIGHTDIR);
-        lb = initDcMotor(hardwareMap, "lb", LEFTDIR);
-        rb = initDcMotor(hardwareMap, "rb", RIGHTDIR);
+        lf = initDcMotor(hardwareMap, "FL", LEFTDIR);
+        rf = initDcMotor(hardwareMap, "FR", RIGHTDIR);
+        lb = initDcMotor(hardwareMap, "BL", LEFTDIR);
+        rb = initDcMotor(hardwareMap, "BR", RIGHTDIR);
         initIMU(hardwareMap);
     }
 

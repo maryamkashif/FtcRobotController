@@ -11,8 +11,8 @@ public class Elevator {
     DcMotorEx elevatorRight;
 
     public void init(HardwareMap hardwareMap) {
-        elevatorLeft = initDcMotor(hardwareMap, "elevatorLeft", DcMotor.Direction.REVERSE);
-        elevatorRight = initDcMotor(hardwareMap, "elevatorRight", DcMotor.Direction.FORWARD);
+        elevatorLeft = initDcMotor(hardwareMap, "EL", DcMotor.Direction.REVERSE);
+        elevatorRight = initDcMotor(hardwareMap, "ER", DcMotor.Direction.FORWARD);
     }
 
     public DcMotorEx initDcMotor(HardwareMap hardwareMap,
