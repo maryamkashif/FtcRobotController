@@ -21,7 +21,9 @@ public class Elevator {
         DcMotorEx m = hardwareMap.get(DcMotorEx.class, name);
         m.setDirection(dir);
         m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        m.setTargetPosition(m.getCurrentPosition());
+        m.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        m.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        m.setTargetPosition(0);
         m.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         m.setPower(0.5);
         return m;
@@ -30,8 +32,6 @@ public class Elevator {
     public void elevate(int pos, double power) {
         elevatorRight.setTargetPosition(pos);
         elevatorLeft.setTargetPosition(pos);
-        elevatorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        elevatorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         elevatorRight.setPower(power);
         elevatorLeft.setPower(power);
     }
