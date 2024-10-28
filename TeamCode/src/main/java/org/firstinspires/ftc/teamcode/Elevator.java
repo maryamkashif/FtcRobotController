@@ -11,8 +11,8 @@ public class Elevator {
     DcMotorEx elevatorRight;
 
     public void init(HardwareMap hardwareMap) {
-        elevatorLeft = initDcMotor(hardwareMap, "EL", DcMotor.Direction.REVERSE);
-        elevatorRight = initDcMotor(hardwareMap, "ER", DcMotor.Direction.FORWARD);
+        elevatorLeft = initDcMotor(hardwareMap, "EL", DcMotor.Direction.FORWARD);
+        elevatorRight = initDcMotor(hardwareMap, "ER", DcMotor.Direction.REVERSE);
     }
 
     public DcMotorEx initDcMotor(HardwareMap hardwareMap,
@@ -27,6 +27,10 @@ public class Elevator {
         m.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         m.setPower(0.5);
         return m;
+    }
+
+    public int getCurrPos() {
+        return elevatorRight.getCurrentPosition();
     }
 
     public void elevate(int pos, double power) {

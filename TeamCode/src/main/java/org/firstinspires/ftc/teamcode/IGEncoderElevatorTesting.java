@@ -71,7 +71,7 @@ public class IGEncoderElevatorTesting extends LinearOpMode {
             double jy = -gamepad1.left_stick_x;
             double jw = -gamepad1.right_stick_x;
 
-            bot.driveXYW(jx, jy, jw);
+            bot.driveXYW(jx, jy, jw, 1);
 
             // Get the current position of the armMotor
             double elevatorRightPos = elevatorRight.getCurrentPosition();

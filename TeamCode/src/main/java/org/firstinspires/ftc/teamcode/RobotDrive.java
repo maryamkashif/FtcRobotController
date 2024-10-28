@@ -17,10 +17,10 @@ public class RobotDrive {
     static double headingOffset = 0; // static remembers across opmode runs
 
     public void init(HardwareMap hardwareMap) {
-        lf = initDcMotor(hardwareMap, "FL", LEFTDIR);
-        rf = initDcMotor(hardwareMap, "FR", RIGHTDIR);
-        lb = initDcMotor(hardwareMap, "BL", LEFTDIR);
-        rb = initDcMotor(hardwareMap, "BR", RIGHTDIR);
+        lf = initDcMotor(hardwareMap, "fl", LEFTDIR);
+        rf = initDcMotor(hardwareMap, "fr", RIGHTDIR);
+        lb = initDcMotor(hardwareMap, "bl", LEFTDIR);
+        rb = initDcMotor(hardwareMap, "br", RIGHTDIR);
         initIMU(hardwareMap);
     }
 
@@ -52,7 +52,7 @@ public class RobotDrive {
         return m;
     }
 
-    public void driveXYW(double rx, double ry, double rw) {
+    public void driveXYW(double rx, double ry, double rw, double m) {
         double denom = Math.max(1,
                 (Math.abs(rx)+Math.abs(ry)+Math.abs(rw)));
 
@@ -61,10 +61,10 @@ public class RobotDrive {
         double lbPower = (rx + ry - rw) / denom;
         double rbPower = (rx - ry + rw) / denom;
 
-        lf.setPower(lfPower);
-        rf.setPower(rfPower);
-        lb.setPower(lbPower);
-        rb.setPower(rbPower);
+        lf.setPower(m*lfPower);
+        rf.setPower(m*rfPower);
+        lb.setPower(m*lbPower);
+        rb.setPower(m*rbPower);
     }
 
     public void driveFieldXYW(double fx, double fy, double fw) {
@@ -73,7 +73,7 @@ public class RobotDrive {
         double rx = fx * Math.cos(-theta) - fy * Math.sin(-theta);
         double ry = fx * Math.sin(-theta) + fy * Math.cos(-theta);
 
-        driveXYW(rx, ry, fw);
+        driveXYW(rx, ry, fw, 1);
     }
 
 }
